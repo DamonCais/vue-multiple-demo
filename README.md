@@ -159,7 +159,9 @@ for (var pathname in pages) {
 
 最后需要说明的是：我把不同的页面放到了module下，为了使最后生成的页面不带module/路径
 我把所有的pathname做了一些简单的修改
+``` bash
     // pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
     pathname = basename; // 正确输出js和html的路径
     最后，通过npm run build 打包生成了多个页面，
     为了验证打包成功，可以在当前目录下node app，通过koa写的一个简单的静态服务器。
+```
