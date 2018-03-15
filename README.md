@@ -23,7 +23,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 通过修改webpack的配置实现vue多页面应用的开发和打包。
 build 目录下，
 webpack.base.conf 基础配置部分：
-··· base
+``` bash
 var glob = require('glob');
 var entries = getEntry('./src/module/**/*.js'); // 获得入口js文件
 
@@ -44,17 +44,17 @@ function getEntry(globPath) {
     console.log(entries);
     return entries;
 }
-···
+``` 
 
-··· base
+``` bash
 entry: entries,
 entry:{app: './src/main.js'},
 原理很简单，其实就是修改入口文件的内容
 glob扫描了 src/module目录下的文件。
-···
+``` 
 
 webpack.dev.conf 开发环境下配置部分：
-··· dev
+``` bash
 var glob = require('glob');
 function getEntry(globPath) {
     var entries = {},
@@ -89,19 +89,19 @@ for (var pathname in pages) {
     // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
     devWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
-···
-··· dev
+``` 
+``` bash
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
     //   template: 'index.html',
     //   inject: true
     // }),
     可以发现，原来的HtmlWebpackPlugin插件配置被注释了，我使用了新的plugins.push的方法来实现多个plugin对象插入
-···
+``` 
 
 
 webpack.prod.conf 生产环境下的配置部分：
-··· prod
+``` bash
 var glob = require('glob');
 function getEntry(globPath) {
     var entries = {},
@@ -138,8 +138,8 @@ for (var pathname in pages) {
     // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
     webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
-···
-··· prod
+``` 
+``` bash
     // new HtmlWebpackPlugin({
     //   filename: config.build.index,
     //   template: 'index.html',
@@ -155,7 +155,7 @@ for (var pathname in pages) {
     //   chunksSortMode: 'dependency'
     // }),
     同样的，把HtmlWebpackPlugin插件配置被注释了
-···
+``` 
 
 最后需要说明的是：我把不同的页面放到了module下，为了使最后生成的页面不带module/路径
 我把所有的pathname做了一些简单的修改
