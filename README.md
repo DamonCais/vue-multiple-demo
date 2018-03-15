@@ -23,7 +23,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 通过修改webpack的配置实现vue多页面应用的开发和打包。
 build 目录下，
 webpack.base.conf 基础配置部分：
-···
+··· base
 var glob = require('glob');
 var entries = getEntry('./src/module/**/*.js'); // 获得入口js文件
 
@@ -45,7 +45,8 @@ function getEntry(globPath) {
     return entries;
 }
 ···
-···
+
+··· base
 entry: entries,
 entry:{app: './src/main.js'},
 原理很简单，其实就是修改入口文件的内容
@@ -53,7 +54,7 @@ glob扫描了 src/module目录下的文件。
 ···
 
 webpack.dev.conf 开发环境下配置部分：
-···
+··· dev
 var glob = require('glob');
 function getEntry(globPath) {
     var entries = {},
@@ -89,7 +90,7 @@ for (var pathname in pages) {
     devWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
 ···
-···
+··· dev
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
     //   template: 'index.html',
@@ -100,7 +101,7 @@ for (var pathname in pages) {
 
 
 webpack.prod.conf 生产环境下的配置部分：
-···
+··· prod
 var glob = require('glob');
 function getEntry(globPath) {
     var entries = {},
@@ -138,7 +139,7 @@ for (var pathname in pages) {
     webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
 ···
-···
+··· prod
     // new HtmlWebpackPlugin({
     //   filename: config.build.index,
     //   template: 'index.html',
