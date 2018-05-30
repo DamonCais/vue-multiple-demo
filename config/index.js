@@ -41,7 +41,9 @@ module.exports = {
         index: path.resolve(__dirname, '../dist/index.html'),
 
         // Paths
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        // assetsRoot: path.resolve(__dirname, '../dist'),
+				// 新的地址
+        assetsRoot: path.resolve(__dirname, '../../v2-200/public'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
 

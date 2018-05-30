@@ -1,24 +1,58 @@
 <template>
-  <div id="app">
-    <img src="@/assets/logo.png">
-    detail
+	<div id="app">
+		<div @click="showSku" class="btn">加入购物车</div>
+		<sku v-model="show" @addToCart="skuAddToCart" @buyNow="skuBuyNow" :product="product" />
 
-  </div>
+	</div>
 </template>
 
 <script>
+function deepGet(value, path) {
+	return (!Array.isArray(path) ? path.replace(/\[/g, '.').replace(/\]/g, '').split('.') : path).reduce((o, k) => (o || {})[k], value) || undefined;
+};
+import sku from './sku'
+
 export default {
-  name: 'App'
+	name: 'App',
+	mounted() {
+		this.product = deepGet(window, 'BRIDGE_DATA.product') || {};
+		console.log(this.product);
+	},
+	data() {
+		return {
+			product: {},
+			show: false,
+		}
+	}, methods: {
+
+		showSku() {
+			this.product = deepGet(window, 'BRIDGE_DATA.product') || {};
+			this.show = true;
+			// this.$refs.sku.showSku();
+		},
+		skuAddToCart(data) {
+			console.log(data);
+		},
+		skuBuyNow(data) {
+			console.log(data);
+		},
+
+	},
+	components: {
+		// guzzuSku,
+		sku,
+
+
+	}
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  // color:red;
+  .btn {
+    // padding:10px;
+  }
 }
 </style>

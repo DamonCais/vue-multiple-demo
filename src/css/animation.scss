@@ -1,0 +1,90 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    // outline: 0;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline
+}
+
+.transleft-enter-to {
+    transition: all 0.3s ease;
+    transform: translateX(0);
+}
+
+.transleft-leave-active {
+    transition: all 0.3s ease;
+    transform: translateX(-100%);
+}
+
+.transleft-enter {
+    transform: translateX(100%);
+}
+
+.transleft-leave {
+    transform: translateX(0);
+}
+
+.transright-enter-to {
+    transition: all 0.3s ease;
+    transform: translateX(0);
+}
+
+.transright-leave-active {
+    transition: all 0.3s ease;
+    transform: translateX(100%);
+}
+
+.transright-enter {
+    transform: translateX(-100%);
+}
+
+.transright-leave {
+    transform: translateX(0);
+}
+
+.transTop-enter-to {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.transTop-leave-active {
+    transition: all 0.3s ease;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.transTop-enter {
+    transform: translateY(-100%);
+}
+
+.transTop-leave {
+    transform: translateY(0);
+}
+
+.transBottom-enter-to {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.transBottom-leave-active {
+    transition: all 0.3s ease;
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.transBottom-enter {
+    transform: translateY(100%);
+}
+
+.transBottom-leave {
+    transform: translateY(0);
+}
