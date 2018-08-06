@@ -1,0 +1,64 @@
+// .form {
+//   max-width: 600px;
+//   margin: 0 auto;
+// }
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formItem {
+  position: relative;
+  .tips {
+    color: #aaa;
+    font-size: 12px;
+    line-height: 10px;
+  }
+  .imginput {
+    position: absolute;
+    left: -9999px;
+  }
+  .imglabel {
+    display: block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background: #409eff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: 10px 0;
+  }
+}
+
+.my-row {
+  display: flex;
+  justify-content: center;
+}
+
+.dynamic {
+  .el-input {
+    width: 270px;
+  }
+}
