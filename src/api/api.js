@@ -53,8 +53,6 @@ export function doGet(url, params) {
     method: 'get'
   })
 }
-
-
 function getFullUrl(url, params) {
   let query = ''
   for (const p in params) {

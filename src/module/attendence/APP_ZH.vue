@@ -3,52 +3,51 @@
     <el-row>
       <el-col :span="8">
         <div class="flex-input">
-          <span>Select date:</span>
-          <el-date-picker :clearable="false" @change="dateChange" :default-value="new Date()" format="yyyy-MM-dd" v-model="date" type="date" :picker-options="pickerBefore" placeholder="Select date">
+          <span>选择日期:</span>
+          <el-date-picker @change="dateChange" :default-value="new Date()" format="yyyy-MM-dd" v-model="date" type="date" :picker-options="pickerBefore" placeholder="选择日期">
           </el-date-picker>
         </div>
       </el-col>
 
     </el-row>
-    <el-row class="mt-10">
+    <el-row class="mt-4">
       <my-table class="text-align:center;" :showData="showData" :gridData="gridData">
-        <el-table-column width="540px" label="Operate">
+        <el-table-column width="500px" label="Operate">
           <template slot-scope="scope">
             <div class="absentBtn" v-if="scope.$index===0">
-              <el-button type="success" size="small" @click="setAllStatus('present')">Mark all present</el-button>
-              <el-button type="warning" size="small" @click="setAllStatus('late')">Mark all late</el-button>
-              <el-button type="primary" size="small" @click="setAllStatus('leave')">Mark all leave</el-button>
-              <el-button type="danger" size="small" @click="setAllStatus('absence')">Mark all absent</el-button>
+              <el-button type="success" size="small" @click="setAllStatus('present')">全部出席</el-button>
+              <el-button type="warning" size="small" @click="setAllStatus('late')">全部迟到</el-button>
+              <el-button type="primary" size="small" @click="setAllStatus('leave')">全部请假</el-button>
+              <el-button type="danger" size="small" @click="setAllStatus('absence')">全部缺席</el-button>
             </div>
             <div class="absentBtn" v-else>
-              <el-button :plain="scope.row.type!=='present'" data-type="present" :data-id="scope.row.user_id" type="success" size="small" @click="setStatus">present</el-button>
-              <el-button :plain="scope.row.type!=='late'" data-type="late" :data-id="scope.row.user_id" type="warning" size="small" @click="setStatus">late</el-button>
-              <el-button :plain="scope.row.type!=='leave'" data-type="leave" :data-id="scope.row.user_id" type="primary" size="small" @click="setStatus">leave</el-button>
-              <el-button :plain="scope.row.type!=='absence'" data-type="absent" :data-id="scope.row.user_id" type="danger" size="small" @click="setStatus">absent</el-button>
-              <!-- <el-button :plain="scope.row.type!=='absence'" data-type="absent" :data-id="scope.row.user_id" type="danger" size="small" @click="btnTest">test</el-button> -->
+              <el-button :plain="scope.row.type!=='present'" type="success" size="small" @click="setStatus(scope.row.user_id,'present')">出席</el-button>
+              <el-button :plain="scope.row.type!=='late'" type="warning" size="small" @click="setStatus(scope.row.user_id,'late')">迟到</el-button>
+              <el-button :plain="scope.row.type!=='leave'" type="primary" size="small" @click="setStatus(scope.row.user_id,'leave')">请假</el-button>
+              <el-button :plain="scope.row.type!=='absence'" type="danger" size="small" @click="setStatus(scope.row.user_id,'absence')">缺席</el-button>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="Operate">
           <template slot-scope="scope">
             <div v-if="scope.$index===0">
-              <span>Note</span>
+              <span>备注</span>
             </div>
             <div v-else>
-              <el-input @change="editing=true" v-model="scope.row.remark" autosize type="textarea"></el-input>
+              <el-input v-model="scope.row.remark" autosize type="textarea"></el-input>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="Operate">
           <template slot-scope="scope">
             <div v-if="scope.$index===0">
-              <span>File attachment</span>
+              <span>附件</span>
             </div>
             <div v-else>
               <input multiple="multiple" style="position:absolute;left:-9999px;" :id="'imginput'+scope.$index" :ref="'imginput'+scope.$index" type="file" @change="imgChange(scope.$index)">
-              <label class="el-button el-button--small" :for="'imginput'+scope.$index">Add</label>
+              <label class="el-button" :for="'imginput'+scope.$index">添加</label>
               <!-- <el-button @click="postAcceptor(scope.row.user_id)">添加</el-button> -->
-              <el-button size="small" v-show="scope.row.attachments.length" @click="showAttachments(scope.$index)" type="success" icon="el-icon-document" circle></el-button>
+              <el-button v-show="scope.row.attachments.length" @click="showAttachments(scope.$index)" type="success" icon="el-icon-document" circle></el-button>
             </div>
           </template>
         </el-table-column>
@@ -57,22 +56,22 @@
     <el-row class="flex-end mt-5">
 
     </el-row>
-    <div class="mt-10" style="font-size:14px;">
-      Total {{gridData.length-1}} Students,{{getNumByType('present')}} students were attended,{{getNumByType('late')}} students were late,{{getNumByType('leave')}} students were leave,{{getNumByType('absence')}} students were absent
+    <div class="mt-4">
+      共 {{gridData.length-1}} 位学生,出席人数:{{getNumByType('present')}},迟到人数:{{getNumByType('late')}},请假人数:{{getNumByType('leave')}},缺席人数{{getNumByType('absence')}}
     </div>
-    <div class="mt-5 flex-end">
-      <el-button @click="updateAttendances('')" :type="editing?'success':'info'">Save</el-button>
+    <div class="mt-2 flex-end">
+      <el-button @click="updateAttendances('')" :type="editing?'success':'info'">保存</el-button>
     </div>
 
     <!-- 查看附件 -->
-    <el-dialog :close-on-click-modal="false" title="Attachments" :visible.sync="dialogVisible" width="40%">
+    <el-dialog :close-on-click-modal="false" title="查看附件" :visible.sync="dialogVisible" width="40%">
       <p v-for="(a,i) in attachments" :key="i" class="flex-between">
         <a target="_blank" :href="a.url">{{a.name}}</a>
         <el-button @click="delAttachments(i)" type="danger" size="small" icon="el-icon-delete" circle></el-button>
       </p>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="delAttachmentsCancel">Cancel</el-button>
-        <el-button type="primary" @click="delAttachmentsConfirm">Confirm</el-button>
+        <el-button @click="delAttachmentsCancel">取 消</el-button>
+        <el-button type="primary" @click="delAttachmentsConfirm">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -80,7 +79,7 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 import myTable from "./myTable";
 import { doGet, doPost, doPatch, upLoadImg } from "@/api/api";
@@ -99,7 +98,7 @@ export default {
     this.fetchAttendances();
   },
   computed: {
-    // ...mapGetters(["laravel_session"])
+    ...mapGetters(["laravel_session"])
   },
   data() {
     return {
@@ -111,8 +110,8 @@ export default {
       ],
       gridData: [
         {
-          user_id: "Reference no",
-          user_name: "username"
+          user_id: "#",
+          user_name: "姓名"
         }
       ],
       date: null,
@@ -128,10 +127,6 @@ export default {
     };
   },
   methods: {
-    btnTest(e) {
-      console.log(e);
-      e.target.blur();
-    },
     setEdit(bool) {
       this.editing = bool;
     },
@@ -167,10 +162,7 @@ export default {
     upimg(formData, index) {
       upLoadImg("/attachments/postAcceptor/attendance", formData).then(res => {
         this.setEdit(true);
-        this.$message({
-          type: "success",
-          message: "upload success!"
-        });
+
         let ids = res.files;
         if (this.gridData[index].attachments) {
           this.gridData[index].attachments.push(...ids);
@@ -206,20 +198,18 @@ export default {
       doGet(`/groups/group/${this.classId}/attendances/fetch`, {
         date: this.formatDateTime(this.date, "yyyy-MM-dd")
       }).then(res => {
+        console.log(res);
         this.gridData = [this.gridData[0]].concat(...res.data);
         this.setEdit(false);
         loading.close();
       });
     },
-    setStatus(e) {
-      e.target.blur();
-      let id = "" + e.target.dataset.id;
-      let type = e.target.dataset.type;
-      let index = this.gridData.findIndex(item => item.user_id == id);
+    setStatus(id, type) {
+      let index = this.gridData.findIndex(item => item.user_id === id);
       if (this.gridData[index].type) {
-        this.$confirm("Do you want to change the attendance?", "Tips", {
-          confirmButtonText: "Yes, change attendance",
-          cancelButtonText: "Cancel",
+        this.$confirm("是否修改该学生的考勤?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
           type: "warning"
         })
           .then(() => {
@@ -231,7 +221,7 @@ export default {
           .catch(() => {
             this.$message({
               type: "info",
-              message: "Cancel"
+              message: "已取消修改"
             });
           });
       } else {
@@ -253,36 +243,26 @@ export default {
       if (!this.editing) {
         return;
       }
-      // let attendances =
-      //   arr || this.gridData.filter((item, index) => index !== 0);
       let attendances = arr || this.gridData.filter(item => item.type);
-      if (!attendances.length) {
-        this.$alert(`Please modify the student's status first`, "Tips", {
-          confirmButtonText: "Confirm",
-          callback: action => {
-            return;
-          }
-        });
-      } else {
-        let d = this.formatDateTime(this.date, "yyyy-MM-dd");
-        doPatch(`/groups/group/${this.classId}/attendances?date=${d}`, {
-          attendances
-        })
-          .then(res => {
-            this.$message({
-              type: "success",
-              message: "Modify Success!"
-            });
-            this.setEdit(false);
-            // this.fetchAttendances();
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "Error"
-            });
+      let d = this.formatDateTime(this.date, "yyyy-MM-dd");
+      doPatch(`/groups/group/${this.classId}/attendances?date=${d}`, {
+        attendances
+      })
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "修改成功!"
           });
-      }
+          this.setEdit(false);
+          // this.fetchAttendances();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "发生错误"
+          });
+          // location.reload();
+        });
     },
     formatDateTime(date, format) {
       var y = date.getFullYear();
@@ -313,7 +293,7 @@ export default {
 }
 .absentBtn {
   .el-button {
-    width: 115px;
+    width: 80px;
   }
 }
 </style>
